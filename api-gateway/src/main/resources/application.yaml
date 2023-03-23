@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+app:
+  dependencies:
+    foo:
+      baseUrl: http://localhost:8081
+    bar:
+      baseUrl: http://localhost:8082
+
+logging:
+  level:
+    root: info
+    no.embriq.api.gateway: debug
