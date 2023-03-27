@@ -1,5 +1,6 @@
 package no.embriq.api.gateway;
 
+import no.embriq.api.gateway.filter.AddAndSubtractCompositionFilter;
 import no.embriq.api.gateway.filter.PingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Flux;
 @Component
 public class Routes implements RouteLocator {
 
+    private static final String NOOP = "https://mandatory.url.that.is.ignored.due.to.filter.logic";
     @Autowired
     private RouteLocatorBuilder builder;
 
@@ -23,6 +25,9 @@ public class Routes implements RouteLocator {
 
     @Autowired
     private PingFilter pingFilter;
+
+    @Autowired
+    private AddAndSubtractCompositionFilter addAndSubtractCompositionFilter;
 
     @Override
     public Flux<Route> getRoutes() {
@@ -40,7 +45,10 @@ public class Routes implements RouteLocator {
                         .uri(barUrl))
                 .route(r -> r.path("/ping")
                         .filters(f -> f.filter(pingFilter.apply(new Object()))) // pingFilter.apply parameter cannot be null even though it is ignored. Throws NPE
-                        .uri("https://mandatory.url.that.is.ignored.due.to.filter.logic"))
+                        .uri(NOOP))
+                .route(r -> r.path("/addThenSubtract")
+                        .filters(f -> f.filter(addAndSubtractCompositionFilter.apply(new Object())))
+                        .uri(NOOP))
                 .build().getRoutes();
 
     }
