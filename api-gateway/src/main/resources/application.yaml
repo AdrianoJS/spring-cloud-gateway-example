@@ -12,20 +12,3 @@ logging:
   level:
     root: info
     no.embriq.api.gateway: debug
-
-spring:
-  cloud:
-    gateway:
-      routes:
-        - id: "subtraction"
-          uri: ${app.dependencies.bar.baseUrl}
-          predicates:
-            - Path=/api/subtract
-        - id: "foo ping"
-          uri: ${app.dependencies.foo.baseUrl}
-          predicates:
-            - Path=/foo/ping
-          filters:
-            # Paths can be rewritten, e.g. when two internal applications have identical paths
-            # Syntax for RewritePath: https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-rewritepath-gatewayfilter-factory
-            - RewritePath=/foo/ping,/api/ping

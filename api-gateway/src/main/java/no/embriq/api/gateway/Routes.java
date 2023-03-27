@@ -1,5 +1,6 @@
 package no.embriq.api.gateway;
 
+import no.embriq.api.gateway.filter.PingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.Route;
@@ -20,6 +21,9 @@ public class Routes implements RouteLocator {
     @Value("${app.dependencies.bar.baseUrl}")
     private String barUrl;
 
+    @Autowired
+    private PingFilter pingFilter;
+
     @Override
     public Flux<Route> getRoutes() {
         return builder.routes()
@@ -34,6 +38,9 @@ public class Routes implements RouteLocator {
                 .route(r -> r.path("/bar/ping")
                         .filters(f -> f.rewritePath("/bar/ping", "/api/ping"))
                         .uri(barUrl))
+                .route(r -> r.path("/ping")
+                        .filters(f -> f.filter(pingFilter.apply(new Object()))) // pingFilter.apply parameter cannot be null even though it is ignored. Throws NPE
+                        .uri("https://mandatory.url.that.is.ignored.due.to.filter.logic"))
                 .build().getRoutes();
 
     }

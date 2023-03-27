@@ -1,45 +1,22 @@
 package no.embriq.api.gateway.filter;
 
-import no.embriq.api.gateway.GatewayApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockserver.client.MockServerClient;
-import org.mockserver.model.ClearType;
-import org.mockserver.springtest.MockServerTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-@MockServerTest
-@AutoConfigureWebTestClient
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {GatewayApplication.class},
-        properties = {
-                "app.dependencies.foo.baseUrl=http://localhost:${mockServerPort}",
-                "app.dependencies.bar.baseUrl=http://localhost:${mockServerPort}",
-                "logging.level.org.mockserver.log.MockServerEventLog=warn"
-        }
-)
+
 @ExtendWith(OutputCaptureExtension.class)
-class GlobalLoggingFilterTest {
-
-    @Autowired
-    private WebTestClient client;
-
-    private MockServerClient mockServer;
+class GlobalLoggingFilterTest extends AbstractRunningApiGatewayTest {
 
     @BeforeEach
     void beforeEach() {
-        mockServer.clear(request(), ClearType.LOG);
+        clearMockServer();
     }
 
     @Test
