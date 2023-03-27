@@ -14,10 +14,24 @@
     <artifactId>api-gateway</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <mockserver.version>5.15.0</mockserver.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-spring-test-listener-no-dependencies</artifactId>
+            <version>${mockserver.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -26,9 +26,15 @@ public class Routes implements RouteLocator {
                 .route("optional id",
                         r -> r.path("/api/add")
                                 .uri(fooUrl))
+                .route(r -> r.path("/api/subtract")
+                        .uri(barUrl))
+                .route(r -> r.path("/foo/ping")
+                        .filters(f -> f.rewritePath("/foo/ping", "/api/ping"))
+                        .uri(fooUrl))
                 .route(r -> r.path("/bar/ping")
                         .filters(f -> f.rewritePath("/bar/ping", "/api/ping"))
                         .uri(barUrl))
                 .build().getRoutes();
+
     }
 }
