@@ -9,6 +9,8 @@ All the branches combined show that you can choose how simple or complex of a ga
 
 The main branch is used as the base as it represents two individual applications that need to be hidden behind an API gateway.
 
+Read https://medium.com/@adrianostewart/creating-an-api-gateway-ba8447d82b5 for an explanation of what happens when and wny.
+
 ## Requirements
 * Java 17
 * Maven 3.8.6+
